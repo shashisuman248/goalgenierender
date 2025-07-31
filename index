@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoalGenie - SipWealth</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f3f3f3; }
+    #chat { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
+    .msg { margin: 10px 0; }
+    .bot { background: #e1f5fe; padding: 10px; border-radius: 5px; }
+    .user { text-align: right; color: #333; }
+  </style>
+</head>
+<body>
+  <div id="chat">
+    <h2>GoalGenieBot powered by SipWealth</h2>
+    <div id="messages"></div>
+    <input id="email" placeholder="Your email" /><br><br>
+    <input id="phone" placeholder="Your phone number" /><br><br>
+    <input id="sip" placeholder="SIP amount (e.g. 10000)" /><br><br>
+    <input id="tenure" placeholder="Tenure in years" /><br><br>
+    <select id="risk">
+      <option value="">Risk Profile</option>
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select><br><br>
+    <button onclick="submit()">Get Recommendation</button>
+  </div>
+
+  <script>
+    async function submit() {
+      const sip = document.getElementById('sip').value;
+      const tenure = document.getElementById('tenure').value;
+      const risk = document.getElementById('risk').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      const userMsg = `Goal: ₹${sip} SIP for ${tenure} years. Risk: ${risk}`;
+      document.getElementById('messages').innerHTML += `<div class="msg user">${userMsg}</div>`;
+
+      const res = await fetch('/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sip, tenure, risk, email, phone })
+      });
+      const data = await res.json();
+
+      const botMsg = `✅ ${data.fund}<br>💡 ${data.reason_en}<br>🗣️ ${data.reason_hi}`;
+      document.getElementById('messages').innerHTML += `<div class="msg bot">${botMsg}</div>`;
+    }
+  </script>
+</body>
+</html>
