@@ -1,0 +1,30 @@
+Risk Profile,Min Tenure,Max Tenure,Min SIP,Max SIP,Fund Name
+Aggressive,7,30,50000,100000,Quant Small Cap Fund ? Direct Growth
+Aggressive,5,10,30000,60000,Nippon India Small Cap Fund
+Aggressive,3,7,20000,50000,ICICI Prudential Technology Fund
+Aggressive,5,10,30000,70000,Motilal Oswal Midcap Fund
+Aggressive,3,5,15000,40000,Axis Small Cap Fund
+Aggressive,4,8,18000,45000,Franklin India Prima Fund
+Aggressive,6,12,30000,80000,Kotak Emerging Equity Fund
+Aggressive,5,10,25000,55000,Mirae Asset Midcap Fund
+Aggressive,3,6,20000,40000,Tata Small Cap Fund
+Moderate,5,15,30000,60000,Parag Parikh Flexi Cap Fund
+Moderate,3,8,15000,40000,Mirae Asset Large Cap Fund
+Moderate,4,10,20000,45000,HDFC Hybrid Equity Fund
+Moderate,5,10,25000,50000,UTI Flexi Cap Fund
+Moderate,2,6,10000,30000,Axis Bluechip Fund
+Moderate,1,5,10000,25000,SBI Bluechip Fund
+Moderate,3,7,12000,35000,ICICI Prudential Bluechip Fund
+Moderate,2,6,15000,30000,Edelweiss Balanced Advantage Fund
+Moderate,5,12,20000,45000,Canara Robeco Equity Hybrid Fund
+Moderate,3,8,18000,35000,Kotak Flexicap Fund
+Conservative,3,10,20000,40000,ICICI Prudential Balanced Advantage Fund
+Conservative,2,5,10000,25000,Tata Balanced Fund
+Conservative,1,3,5000,15000,Canara Robeco Conservative Hybrid Fund
+Conservative,1,2,5000,10000,HDFC Balanced Advantage Fund
+Conservative,2,4,10000,20000,Aditya Birla Sun Life Regular Savings Fund
+Conservative,3,5,15000,25000,Nippon India Arbitrage Fund
+Conservative,2,6,10000,25000,ICICI Prudential Regular Savings Fund
+Conservative,1,4,7000,15000,Axis Conservative Hybrid Fund
+Conservative,3,7,20000,35000,SBI Equity Savings Fund
+Conservative,2,6,12000,28000,Edelweiss Arbitrage Fund
