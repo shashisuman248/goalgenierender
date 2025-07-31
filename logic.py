@@ -1,30 +1,41 @@
-def get_recommendation(data):
-    try:
-        sip = int(data.get("sip") or 0)
-        tenure = int(data.get("tenure") or 0)
-        risk = (data.get("risk") or "").lower()
+import pandas as pd
+import random
 
-        if risk == "high" and tenure >= 7 and sip >= 10000:
-            return {
-                "fund": "Quant Flexicap Fund",
-                "reason_en": "High risk profile, long tenure and good SIP size. Flexicap gives exposure to multi-cap opportunities.",
-                "reason_hi": "हाई रिस्क प्रोफाइल, लंबी अवधि और अच्छा SIP. फ्लेक्सीकैप फंड मल्टीकैप अवसर देता है।"
-            }
-        elif risk == "medium":
-            return {
-                "fund": "ICICI Prudential Balanced Advantage Fund",
-                "reason_en": "Balanced fund suited for medium risk profiles.",
-                "reason_hi": "मीडियम रिस्क प्रोफाइल के लिए संतुलित फंड उपयुक्त है।"
-            }
-        else:
-            return {
-                "fund": "HDFC Short Term Debt Fund",
-                "reason_en": "Lower risk and short-term investment horizon. Safer option.",
-                "reason_hi": "कम जोखिम और कम अवधि के लिए सुरक्षित विकल्प।"
-            }
-    except Exception as e:
-        return {
-            "fund": "Error",
-            "reason_en": f"Something went wrong: {str(e)}",
-            "reason_hi": "सर्वर में कोई समस्या आई है। कृपया बाद में प्रयास करें।"
-        }
+def get_recommendation(data):
+    # Load the matrix
+    df = pd.read_csv("recommendation_matrix.csv")
+
+    # Extract input
+    sip = int(data.get("sip", 0))
+    tenure = int(data.get("tenure", 0))
+    risk = data.get("risk", "").lower()
+
+    # Define matching logic
+    def match(row):
+        return (
+            row["min_sip"] <= sip <= row["max_sip"] and
+            row["min_tenure"] <= tenure <= row["max_tenure"] and
+            row["risk_profile"].lower() == risk
+        )
+
+    # Filter based on conditions
+    filtered = df[df.apply(match, axis=1)]
+
+    # If not enough rows, give top 3 best-effort matches
+    if len(filtered) < 3:
+        filtered = df[df["risk_profile"].str.lower() == risk].head(3)
+
+    # Prepare list of fund recommendations
+    recommendations = []
+    for _, row in filtered.head(3).iterrows():
+        fund = row["fund_name"]
+        logic_en = row.get("logic_en", "No explanation provided.")
+        logic_hi = row.get("logic_hi", "")
+        recommendations.append(
+            f"👉 **{fund}**\n{logic_en}\n**{logic_hi}**\n"
+        )
+
+    # Join all responses
+    return {
+        "message": "\n\n".join(recommendations)
+    }
