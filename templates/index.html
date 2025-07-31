@@ -1,56 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GoalGenie - SipWealth</title>
+  <title>GoalGenieBot by SipWealth</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f3f3f3; }
-    #chat { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
-    .msg { margin: 10px 0; }
-    .bot { background: #e1f5fe; padding: 10px; border-radius: 5px; }
-    .user { text-align: right; color: #333; }
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 2rem; }
+    input, select { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
+    button { padding: 0.7rem 1.2rem; font-weight: bold; }
+    #response { white-space: pre-wrap; margin-top: 1rem; background: #f9f9f9; padding: 1rem; border-radius: 8px; }
   </style>
 </head>
 <body>
-  <div id="chat">
-    <h2>GoalGenieBot powered by SipWealth</h2>
-    <div id="messages"></div>
-    <input id="email" placeholder="Your email" /><br><br>
-    <input id="phone" placeholder="Your phone number" /><br><br>
-    <input id="sip" placeholder="SIP amount (e.g. 10000)" /><br><br>
-    <input id="tenure" placeholder="Tenure in years" /><br><br>
-    <select id="risk">
-      <option value="">Risk Profile</option>
-      <option value="low">Low</option>
-      <option value="medium">Medium</option>
-      <option value="high">High</option>
-    </select><br><br>
-    <button onclick="submit()">Get Recommendation</button>
-  </div>
+  <h2>📊 GoalGenieBot – Mutual Fund Recommendation</h2>
+
+  <label>SIP Amount (₹):</label>
+  <input type="number" id="sip" placeholder="e.g. 10000" />
+
+  <label>Investment Tenure (Years):</label>
+  <input type="number" id="tenure" placeholder="e.g. 7" />
+
+  <label>Risk Profile:</label>
+  <select id="risk">
+    <option value="low">Low</option>
+    <option value="moderate">Moderate</option>
+    <option value="high">High</option>
+  </select>
+
+  <button onclick="submitForm()">Get Recommendations</button>
+
+  <div id="response"></div>
 
   <script>
-    async function submit() {
+    async function submitForm() {
       const sip = document.getElementById('sip').value;
       const tenure = document.getElementById('tenure').value;
       const risk = document.getElementById('risk').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
 
-      const userMsg = `Goal: ₹${sip} SIP for ${tenure} years. Risk: ${risk}`;
-      document.getElementById('messages').innerHTML += `<div class="msg user">${userMsg}</div>`;
-
-      const res = await fetch('/recommend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sip, tenure, risk, email, phone })
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sip, tenure, risk })
       });
-      const data = await res.json();
 
-      const botMsg = `✅ ${data.fund}<br>💡 ${data.reason_en}<br>🗣️ ${data.reason_hi}`;
-      document.getElementById('messages').innerHTML += `<div class="msg bot">${botMsg}</div>`;
+      const data = await response.json();
+      document.getElementById('response').innerText = data.message || data.error || "Something went wrong";
     }
   </script>
 </body>
 </html>
-
